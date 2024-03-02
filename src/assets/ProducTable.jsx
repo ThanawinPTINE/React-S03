@@ -6,42 +6,6 @@ console.log(products);
 console.log(filterText);
 console.log(inStockOnly);
 
-const rows = [];
-let lastCategory = null;
-
-products.forEach((product) => {
-  console.log("Product",product);
-  if (
-    product.name.toLowerCase().indexOf(
-      filterText.toLowerCase()
-    ) === -1
-  ) {
-    return;
-  }
-
-
-  if (inStockOnly && !product.stocked) {
-    return;
-  }
-  if (product.category !== lastCategory) {
-    rows.push(
-      <ProductCategoryRow
-        category={product.category}
-        key={product.category} />
-    );
-  }
-  rows.push(
-    <ProductRow
-      product={product}
-      key={product.name} />
-  );
-  lastCategory = product.category;
-}
-);
-
-console.log("Table",rows);
-
-
 return (
   <table>
     <thead>
@@ -50,7 +14,23 @@ return (
         <th>Price</th>
       </tr>
     </thead>
-    <tbody>{rows}</tbody>
+    <tbody>
+{products.map((product) => {
+  if (product.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
+    return;
+  }
+  if (inStockOnly && !product.stocked) {
+    return;
+  }
+  return (
+    <ProductRow
+      product={product}
+      key={product.name}
+    />
+  );
+
+}
+    </tbody>
   </table>
 );
 }
